@@ -1,19 +1,19 @@
-from sqlalchemy import Column, INTEGER, String, Float, ForeignKey, DateTime, TIMESTAMP
+from sqlalchemy import Column, INTEGER, String, TIMESTAMP, func, DateTime
 from sqlalchemy.orm import relationship
 from ..common import Base
 
 class Students(Base):
     __tablename__ = 'students'
+
     student_id = Column(INTEGER, primary_key=True)
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
-    date_of_birth = Column(DateTime)
-    created_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP')
-    updated_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP', onupdate='CURRENT_TIMESTAMP')
-    
-    enrollments = relationship('Enrollments', back_populates='students')
-    
+    date_of_birth = Column(TIMESTAMP)  # Assuming you want to store date of birth
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+    enrollments = relationship('Enrollments', backref='student')
+
     def __repr__(self):
-        return f"{self.student_id}:{self.first_name},created_at:{self.created_at}, updated_at:{self.updated_at} "
-    
+        return f"{self.student_id}: {self.first_name} {self.last_name}"
