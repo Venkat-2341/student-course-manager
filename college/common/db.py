@@ -2,9 +2,9 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-CONNECTION_STRING = os.environ["DB_CONNECTION_STRING"]
+# CONNECTION_STRING = os.environ["DB_CONNECTION_STRING"]
 
-engine = create_engine(CONNECTION_STRING, 
+engine = create_engine("sqlite:///demo3.db", 
                        connect_args={
                            "check_same_thread":False
                        },
