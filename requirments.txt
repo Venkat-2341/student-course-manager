@@ -1,0 +1,7 @@
+sqlalchemy
+pydantic
+uvicorn
+fastapi
+art
+argparse
+python-dotenv
