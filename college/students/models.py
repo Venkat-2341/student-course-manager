@@ -9,7 +9,7 @@ class Students(Base):
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
-    date_of_birth = Column(TIMESTAMP)  # Assuming you want to store date of birth
+    date_of_birth = Column(TIMESTAMP)  
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
