@@ -3,7 +3,8 @@ from sqlalchemy.orm import relationship
 from ..common import Base
 
 class Students(Base):
-    student_id = Column(INTEGER, primary_key=True, nullable=False)
+    __tablename__ = 'students'
+    student_id = Column(INTEGER, primary_key=True)
     first_name = Column(String(30), nullable=False)
     last_name = Column(String(30), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
@@ -11,5 +12,8 @@ class Students(Base):
     created_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP')
     updated_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP', onupdate='CURRENT_TIMESTAMP')
     
+    enrollments = relationship('Enrollments', back_populates='students')
+    
     def __repr__(self):
         return f"{self.student_id}:{self.first_name},created_at:{self.created_at}, updated_at:{self.updated_at} "
+    
