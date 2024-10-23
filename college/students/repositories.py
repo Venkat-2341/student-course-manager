@@ -25,8 +25,9 @@ class StudentRepository:
                 
     def fetch_with_name(db:Session, f_name, l_name):
         return db.query(models.Students)\
-            .filter((models.Students.first_name == f_name) and models.Students.last_name == l_name)\
-                .first()
+            .filter(models.Students.first_name == f_name)\
+                .filter(models.Students.last_name == l_name)\
+                    .first()
                 
     def fetch_all(db:Session, skip:int=0, limit:int=10):
         return db.query(models.Students)\
