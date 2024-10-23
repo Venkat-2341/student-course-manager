@@ -14,5 +14,7 @@ class EnrollmentRepository:
         db.commit()
         db.refresh(db_item)
         
-        return db_item
+        return 
     
+    def delete(db:Session, enrollment:schemas.EnrollmentCreate):
+        db_item = models.Enrollments()
