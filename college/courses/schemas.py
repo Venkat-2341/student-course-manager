@@ -6,7 +6,7 @@ class CourseBase(BaseModel):
     
     course_name: str
     description: str
-    credis: int
+    credits: int
     created_at: Optional[DateTime] = None
     updated_at: Optional[DateTime] = None
     

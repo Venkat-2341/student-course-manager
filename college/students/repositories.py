@@ -17,5 +17,23 @@ class StudentRepository:
         db.refresh(db_item)
         
         return db_item
+    
+    def fetch_with_id(db:Session, _id):
+        return db.query(models.Students)\
+            .filter(models.Students.student_id == _id)\
+                .first()
+                
+    def fetch_with_name(db:Session, f_name, l_name):
+        return db.query(models.Students)\
+            .filter((models.Students.first_name == f_name) and models.Students.last_name == l_name)\
+                .first()
+                
+    def fetch_all(db:Session, skip:int=0, limit:int=10):
+        return db.query(models.Students)\
+            .offset(skip)\
+                .limit(limit)\
+                    .all()
+                    
 
+            
     
