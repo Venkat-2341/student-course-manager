@@ -190,9 +190,17 @@ async def create_enrollment(new_enrollment: EnrollmentCreate, db:Session=Depends
             tags=["Enrollment"],
             response_model=Enrollment,
             status_code=201)
-def delete_enrollment(del_enrollment, db:Session= Depends(get_db)):
-    pass
-
-
+def delete_enrollment(student_id:int, course_id:int, db:Session= Depends(get_db)):
     
+    db_item = EnrollmentRepository.delete(db, student_id, course_id)
+    
+    if db_item is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Student has not been enrolled in the particular course"
+        )
+    
+    return {"message": "Enrollment successfully deleted"}
+
+
 

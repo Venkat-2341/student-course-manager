@@ -16,5 +16,17 @@ class EnrollmentRepository:
         
         return 
     
-    def delete(db:Session, enrollment:schemas.EnrollmentCreate):
-        db_item = models.Enrollments()
+    def delete(db:Session, student_id:int, course_id:int):
+        db_item = db.query(models.Enrollments)\
+            .filter(models.Enrollments.student_id == student_id)\
+                .filter(models.Enrollments.course_id == course_id)\
+                    .first()
+                    
+        if db_item is None:
+            return None
+        
+        db.delete(db_item)
+        db.commit()
+        
+        return 
+            
