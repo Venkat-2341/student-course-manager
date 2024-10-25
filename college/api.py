@@ -63,7 +63,7 @@ async def create_student(new_student: StudentCreate, db:Session=Depends(get_db))
                 detail="Student already exists"
             )
         
-        await StudentRepository.create(db, new_student)
+        return await StudentRepository.create(db, new_student)
 
 
 @app.get("/students/{first_name}/{last_name}",
@@ -131,13 +131,12 @@ async def create_course(new_course: CourseCreate, db:Session=Depends(get_db)):
             detail="Course already exists"
         )
         
-    await CoursesRepository.create(db, new_course)
+    return await CoursesRepository.create(db, new_course)
 
 
 @app.get("/courses/{course_id}",
          tags=["Course"],
-         response_model=Course,
-         status_code=201)
+         response_model=Course)
 def get_course_by_id(id:int, db:Session = Depends(get_db)):
     
     db_item = CoursesRepository.fetch_with_id(db, id)
@@ -151,13 +150,12 @@ def get_course_by_id(id:int, db:Session = Depends(get_db)):
     return db_item
 
 
-@app.get("/courses/{course_name}",
+@app.get("/courses/by-name/{course_name}",
          tags=["Course"],
-         response_model=Course,
-         status_code=201)
-def get_course_by_name(name:str, db:Session = Depends(get_db)):
+         response_model=Course)
+def get_course_by_name(course_name:str, db:Session = Depends(get_db)):
     
-    db_item = CoursesRepository.fetch_with_name(db, name)
+    db_item = CoursesRepository.fetch_with_name(db, course_name)
     
     if db_item is None:
         raise HTTPException(
@@ -166,6 +164,22 @@ def get_course_by_name(name:str, db:Session = Depends(get_db)):
         )
     
     return db_item
+
+@app.get("/courses",
+         tags=["Course"],
+         response_model=List[Course])
+def get_all_courses(db:Session = Depends(get_db)):
+    
+    db_item = CoursesRepository.fetch_all(db)
+    
+    if db_item is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Database not found"
+        )
+    
+    return db_item
+
 
 
 @app.post("/enrollments",
@@ -185,7 +199,7 @@ async def create_enrollment(new_enrollment: EnrollmentCreate, db:Session=Depends
             detail="Course already exists"
         )
         
-    await EnrollmentRepository.create(db, new_enrollment)
+    return await EnrollmentRepository.create(db, new_enrollment)
     
 
 @app.delete("/enrollments",
@@ -195,14 +209,23 @@ async def create_enrollment(new_enrollment: EnrollmentCreate, db:Session=Depends
 def delete_enrollment(student_id:int, course_id:int, db:Session= Depends(get_db)):
     
     db_item = EnrollmentRepository.delete(db, student_id, course_id)
+
+    
+    return {"message": "Enrollment successfully deleted"}
+
+
+
+@app.get("/enrollments",
+         tags=["Enrollment"],
+         response_model=List[Enrollment])
+def get_all_enrollments(db:Session = Depends(get_db)):
+    
+    db_item = EnrollmentRepository.fetch_all(db)
     
     if db_item is None:
         raise HTTPException(
             status_code=400,
             detail="Student has not been enrolled in the particular course"
         )
-    
-    return {"message": "Enrollment successfully deleted"}
-
-
-
+        
+    return db_item

@@ -14,7 +14,7 @@ class EnrollmentRepository:
         db.commit()
         db.refresh(db_item)
         
-        return 
+        return db_item
     
     def delete(db:Session, student_id:int, course_id:int):
         db_item = db.query(models.Enrollments)\
@@ -30,3 +30,18 @@ class EnrollmentRepository:
         
         return 
             
+    def fetch_with_name(db:Session, student_id:int, course_id:int):
+        db_item = db.query(models.Enrollments)\
+            .filter(models.Enrollments.student_id == student_id)\
+                .filter(models.Enrollments.course_id == course_id)\
+                    .first()
+        
+        return db_item
+    
+    def fetch_all(db:Session, skip:int=0, limit:int=10):
+        db_item = db.query(models.Enrollments)\
+            .offset(skip)\
+                .limit(limit)\
+                    .all()
+        
+        return db_item
