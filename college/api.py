@@ -7,10 +7,10 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from .common import Base, engine, get_db
-from .students import Student, StudentCreate, StudentRepository
-from .courses import Course, CourseCreate, CoursesRepository
-from .enrollments import Enrollment, EnrollmentCreate, EnrollmentRepository
+from college.common import Base, engine, get_db
+from college.students import Student, StudentCreate, StudentRepository
+from college.courses import Course, CourseCreate, CoursesRepository
+from college.enrollments import Enrollment, EnrollmentCreate, EnrollmentRepository
 
 app = FastAPI(
     title="Student-Course-Manager",
@@ -51,17 +51,19 @@ async def add_process_time_header(request, call_next):
           response_model=Student,
           status_code=201)
 async def create_student(new_student: StudentCreate, db:Session=Depends(get_db)):
+        """
+        Create a Student and store it in the Database.
+        """
+        db_item = StudentRepository.fetch_with_name(db,new_student.first_name, new_student.last_name)
     
-    db_item = StudentRepository.fetch_with_name(db, new_student.first_name, new_student.last_name)
-    
-    if db_item is not None:
-        # Student alredy exists in the database.
-        raise HTTPException(
-            status_code=400,
-            detail="Student already exists"
-        )
+        if db_item is not None:
+            # Student alredy exists in the database.
+            raise HTTPException(
+                status_code=400,
+                detail="Student already exists"
+            )
         
-    await StudentRepository.create(db, new_student)
+        await StudentRepository.create(db, new_student)
 
 
 @app.get("/students/{first_name}/{last_name}",

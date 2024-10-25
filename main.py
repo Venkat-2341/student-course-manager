@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 
 if __name__ == "__main__":
     try:
-        tprint("Courses-Student-Manager")
+        tprint("Courses-Manager")
         load_dotenv()
         
         host = os.environ["UVICORN_HOST"]
-        port = int(os.environ["UVICORN_POST"])
+        port = int(os.environ["UVICORN_PORT"])
         
         app = "college.api:app"
         

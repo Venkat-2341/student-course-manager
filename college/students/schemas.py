@@ -1,22 +1,21 @@
+from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel 
-from sqlalchemy import DateTime, TIMESTAMP
+from pydantic import BaseModel
 
+# Student Schemas
 class StudentBase(BaseModel):
     first_name: str
     last_name: str
     email: str
-    date_of_birth: Optional[TIMESTAMP] = None
-    created_at: Optional[DateTime] = None
-    updated_at: Optional[DateTime] = None
+    date_of_birth: Optional[datetime] = None  # Use datetime here
+    created_at: Optional[datetime] = None  # Use datetime here
+    updated_at: Optional[datetime] = None  # Use datetime here
     
 class StudentCreate(StudentBase):
     pass
 
 class Student(StudentBase):
-    student_id:int
+    student_id: int
     
-    class Config():
+    class Config:
         orm_mode = True
-
-
