@@ -21,12 +21,18 @@ Student-Course Manager is a RESTful API built with FastAPI for managing a colleg
 The project is organized into separate folders for different functional areas:
 
 ->college/common/: Common configurations and utilities, including database setup.
+
 ->college/students/: Handles all student-related models, schemas, and repository functions.
+
 ->college/courses/: Manages course-related models, schemas, and repository functions.
+
 ->college/enrollments/: Contains enrollment-related models, schemas, and repository functions.
 
 ## Technology Stack
 1.FastAPI: The core framework for building and managing API routes.
+
 2.SQLAlchemy: ORM for database interactions and query management.
+
 3.Pydantic: Used for data validation and serialization.
+
 4.Uvicorn: ASGI server for running the FastAPI application.
