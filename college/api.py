@@ -52,7 +52,7 @@ async def add_process_time_header(request, call_next):
           status_code=201)
 async def create_student(new_student: StudentCreate, db:Session=Depends(get_db)):
         """
-        Create a Student and store it in the Database.
+        Creates a Student and store it in the Database.
         """
         db_item = StudentRepository.fetch_with_name(db,new_student.first_name, new_student.last_name)
     
@@ -71,6 +71,9 @@ async def create_student(new_student: StudentCreate, db:Session=Depends(get_db))
          response_model=Student,
          status_code=201)
 def get_student_by_name(first_name: str, last_name:str, db:Session = Depends(get_db)):
+    """
+        Fetches the detals of a particular student given the first name and last name.
+    """
     
     db_item = StudentRepository.fetch_with_name(db, first_name, last_name)
     
@@ -87,6 +90,9 @@ def get_student_by_name(first_name: str, last_name:str, db:Session = Depends(get
          response_model=Student,
          status_code=201)
 def get_student_by_id(id:int, db:Session = Depends(get_db)):
+    """
+        Fetches the detals of a particular student given the student id.
+    """
     
     db_item = StudentRepository.fetch_with_id(db, id)
     
@@ -105,6 +111,10 @@ def get_student_by_id(id:int, db:Session = Depends(get_db)):
          status_code=201)
 def get_all_students(db:Session = Depends(get_db)):
     
+    """
+        Fetches the details of all the students.
+    """
+    
     db_item = StudentRepository.fetch_all(db)
     
     if db_item is None:
@@ -121,6 +131,10 @@ def get_all_students(db:Session = Depends(get_db)):
           response_model=Course,
           status_code=201)
 async def create_course(new_course: CourseCreate, db:Session=Depends(get_db)):
+    
+    """
+        Creates a new course in the database.
+    """
     
     db_item = CoursesRepository.fetch_with_name(db, new_course.course_name)
     
@@ -139,6 +153,10 @@ async def create_course(new_course: CourseCreate, db:Session=Depends(get_db)):
          response_model=Course)
 def get_course_by_id(id:int, db:Session = Depends(get_db)):
     
+    """
+        Fetches the details of a particular course with the help of its course id.
+    """
+    
     db_item = CoursesRepository.fetch_with_id(db, id)
     
     if db_item is None:
@@ -155,6 +173,10 @@ def get_course_by_id(id:int, db:Session = Depends(get_db)):
          response_model=Course)
 def get_course_by_name(course_name:str, db:Session = Depends(get_db)):
     
+    """
+        Fetches the details of particular course by name.
+    """
+    
     db_item = CoursesRepository.fetch_with_name(db, course_name)
     
     if db_item is None:
@@ -169,6 +191,10 @@ def get_course_by_name(course_name:str, db:Session = Depends(get_db)):
          tags=["Course"],
          response_model=List[Course])
 def get_all_courses(db:Session = Depends(get_db)):
+    
+    """
+        Lists out all the courses in the database.
+    """
     
     db_item = CoursesRepository.fetch_all(db)
     
@@ -187,6 +213,10 @@ def get_all_courses(db:Session = Depends(get_db)):
           response_model=Enrollment,
           status_code=201)
 async def create_enrollment(new_enrollment: EnrollmentCreate, db:Session=Depends(get_db)):
+    
+    """
+        Creating a new enrollment, mapping between a student and the enrolled course.
+    """
     
     db_item = EnrollmentRepository.fetch_with_name(db, new_enrollment.student_id, new_enrollment.course_id)
     # check if the (student_id, course_id) pair is already present
@@ -208,6 +238,10 @@ async def create_enrollment(new_enrollment: EnrollmentCreate, db:Session=Depends
             status_code=201)
 def delete_enrollment(student_id:int, course_id:int, db:Session= Depends(get_db)):
     
+    """
+        Deleting an enrollment, if a student decides to un-enroll from a course.
+    """
+    
     db_item = EnrollmentRepository.delete(db, student_id, course_id)
 
     
@@ -219,6 +253,10 @@ def delete_enrollment(student_id:int, course_id:int, db:Session= Depends(get_db)
          tags=["Enrollment"],
          response_model=List[Enrollment])
 def get_all_enrollments(db:Session = Depends(get_db)):
+    
+    """
+        Gets all the enrollments which have been done.
+    """
     
     db_item = EnrollmentRepository.fetch_all(db)
     

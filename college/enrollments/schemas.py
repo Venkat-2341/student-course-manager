@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class EnrollmentBase(BaseModel):
     student_id: int
     course_id: int
-    enrollment_date: Optional[datetime] = None  # Use datetime here
+    enrollment_date: Optional[datetime] = None  
     grade: Optional[int] = None
     
 class EnrollmentCreate(EnrollmentBase):

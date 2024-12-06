@@ -7,9 +7,9 @@ class StudentBase(BaseModel):
     first_name: str
     last_name: str
     email: str
-    date_of_birth: Optional[datetime] = None  # Use datetime here
-    created_at: Optional[datetime] = None  # Use datetime here
-    updated_at: Optional[datetime] = None  # Use datetime here
+    date_of_birth: Optional[datetime] = None  
+    created_at: Optional[datetime] = None  
+    updated_at: Optional[datetime] = None  
     
 class StudentCreate(StudentBase):
     pass
