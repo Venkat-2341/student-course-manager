@@ -11,6 +11,7 @@ from college.common import Base, engine, get_db
 from college.students import Student, StudentCreate, StudentRepository
 from college.courses import Course, CourseCreate, CoursesRepository
 from college.enrollments import Enrollment, EnrollmentCreate, EnrollmentRepository
+from college.students.models import Students
 
 app = FastAPI(
     title="Student-Course-Manager",
@@ -80,7 +81,7 @@ def get_student_by_name(first_name: str, last_name:str, db:Session = Depends(get
     if db_item is None:
         raise HTTPException(
             status_code=404,
-            detail="Student Not found!!"
+            detail="Student Not found name"
         )
     return db_item
 
@@ -99,7 +100,7 @@ def get_student_by_id(id:int, db:Session = Depends(get_db)):
     if db_item is None:
         raise HTTPException(
             status_code=404,
-            detail="Student Not found!!"
+            detail="Student Not found id!!"
         )
     
     return db_item
@@ -267,3 +268,32 @@ def get_all_enrollments(db:Session = Depends(get_db)):
         )
         
     return db_item
+
+
+# @app.get("/students/enrollments/{student_id}",
+#          tags=["Student"],
+#          response_model=Enrollment)
+# def get_student_with_enrollments(student_id: int, db: Session = Depends(get_db)):
+#     """
+#         Fetches a student and their enrollments by student ID.
+#     """
+#     db_item = StudentRepository.fetch_with_enrollments(db, student_id)
+    
+#     if db_item is None:
+#         raise HTTPException(
+#             status_code=404,
+#             detail="Student not found!"
+#         )
+    
+#     return db_item
+
+
+@app.get("/hello/{id}",
+         tags=["Student"])
+def get_student_courses(id: int, db: Session = Depends(get_db)):
+    
+    student = db.query(Students).filter(Students.student_id == id).first()
+    if student:
+        return {"courses": student.courses}
+    else:
+        raise HTTPException(status_code=404, detail="???")

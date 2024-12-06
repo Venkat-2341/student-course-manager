@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
+from college.students.repositories import StudentRepository  
+from college.courses.repositories import CoursesRepository 
 
 class EnrollmentRepository:
     async def create(db:Session, enrollment:schemas.EnrollmentCreate):
@@ -9,6 +11,11 @@ class EnrollmentRepository:
             enrollment_date = enrollment.enrollment_date,
             grade = enrollment.grade
         )
+        
+        course = CoursesRepository.fetch_with_id(db, enrollment.course_id)
+        student = StudentRepository.fetch_with_id(db, enrollment.student_id)
+        
+        student.courses.append(course)
         
         db.add(db_item)
         db.commit()

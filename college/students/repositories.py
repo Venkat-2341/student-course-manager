@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from . import models, schemas
 
 class StudentRepository:
@@ -18,10 +18,18 @@ class StudentRepository:
         
         return db_item
     
-    def fetch_with_id(db:Session, _id):
-        return db.query(models.Students)\
-            .filter(models.Students.student_id == _id)\
-                .first()
+    def fetch_with_id(db: Session, _id: int):
+        print(f"Fetching student with ID {_id}")
+        student = db.query(models.Students).filter(models.Students.student_id == _id).first()
+        
+        # Debugging: Print the result
+        if student is None:
+            print(f"No student found with ID {_id}")
+        else:
+            print(f"Found student: {student.student_id}, Name: {student.first_name} {student.last_name}")
+        
+        return student
+
                 
     def fetch_with_name(db:Session, f_name, l_name):
         return db.query(models.Students)\
@@ -35,6 +43,11 @@ class StudentRepository:
                 .limit(limit)\
                     .all()
                     
-
-            
-    
+    def fetch_with_enrollments(db: Session, _id:int):
+        student = db.query(models.Students)\
+            .filter(models.Students.student_id == _id)\
+                .first()
+                
+        if student:
+            enrollment = student.enrollments
+            return enrollment

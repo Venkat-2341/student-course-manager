@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 from pydantic import BaseModel
+# from college.enrollments.schemas import Enrollment 
 
 # Student Schemas
 class StudentBase(BaseModel):
@@ -16,6 +17,7 @@ class StudentCreate(StudentBase):
 
 class Student(StudentBase):
     student_id: int
+    # enrollments: List[Enrollment] = []
     
     class Config:
         orm_mode = True

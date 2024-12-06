@@ -1,6 +1,13 @@
-from sqlalchemy import Column, INTEGER, String, TIMESTAMP, func, DateTime
+from sqlalchemy import Column, INTEGER, String, TIMESTAMP, func, DateTime, Table, ForeignKey
 from sqlalchemy.orm import relationship
-from ..common import Base
+from ..common import Base, db
+
+student_course = Table(
+    "student_course",
+    Base.metadata,
+    Column("student_id", INTEGER, ForeignKey("students.student_id")),
+    Column("course_id", INTEGER, ForeignKey("courses.course_id"))
+)
 
 class Students(Base):
     __tablename__ = 'students'
@@ -14,6 +21,7 @@ class Students(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     enrollments = relationship('Enrollments', backref='student')
+    courses = relationship('Courses', backref='students', secondary=student_course)
 
     def __repr__(self):
         return f"{self.student_id}: {self.first_name} {self.last_name}"
