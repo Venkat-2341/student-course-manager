@@ -126,6 +126,31 @@ def get_all_students(db:Session = Depends(get_db)):
     
     return db_item
 
+@app.get("/student-courses/{id}",
+         tags=["Student"])
+def get_student_courses(id: int, db: Session = Depends(get_db)):
+    
+    student = StudentRepository.fetch_with_id(db, id)
+    
+    if student:
+        return {"courses" : student.courses}
+    
+    else:
+        raise HTTPException(status_code=404, detail="Student does not exist" )
+    
+    
+@app.get("/student-courses/{first_name}/{last_name}",
+         tags=["Student"])
+def get_student_courses_name(first_name, last_name , db: Session = Depends(get_db)):
+    
+    student = StudentRepository.fetch_with_name(db, first_name, last_name)
+    
+    if student:
+        return {"courses" : student.courses}
+    
+    else:
+        raise HTTPException(status_code=404, detail="Student does not exist" )
+    
 
 @app.post("/courses",
           tags=["Course"],
@@ -207,7 +232,31 @@ def get_all_courses(db:Session = Depends(get_db)):
     
     return db_item
 
-
+@app.get("/course-students/{id}",
+         tags=["Course"])
+def get_course_students(id:int, db: Session = Depends(get_db)):
+    
+    course = CoursesRepository.fetch_with_id(db, id)
+    
+    if course:
+        return {"students" : course.students}
+    
+    else:
+        raise HTTPException(status_code=404, detail="Course does not exist")
+    
+    
+@app.get("/course-students-name/{name}",
+         tags=["Course"])
+def get_course_students_name(name, db: Session = Depends(get_db)):
+    
+    course = CoursesRepository.fetch_with_name(db, name)
+    
+    if course:
+        return {"students" : course.students}
+    
+    else:
+        raise HTTPException(status_code=404, detail="Course does not exist")
+    
 
 @app.post("/enrollments",
           tags=["Enrollment"],
@@ -269,31 +318,6 @@ def get_all_enrollments(db:Session = Depends(get_db)):
         
     return db_item
 
-
-# @app.get("/students/enrollments/{student_id}",
-#          tags=["Student"],
-#          response_model=Enrollment)
-# def get_student_with_enrollments(student_id: int, db: Session = Depends(get_db)):
-#     """
-#         Fetches a student and their enrollments by student ID.
-#     """
-#     db_item = StudentRepository.fetch_with_enrollments(db, student_id)
     
-#     if db_item is None:
-#         raise HTTPException(
-#             status_code=404,
-#             detail="Student not found!"
-#         )
-    
-#     return db_item
 
-
-@app.get("/hello/{id}",
-         tags=["Student"])
-def get_student_courses(id: int, db: Session = Depends(get_db)):
     
-    student = db.query(Students).filter(Students.student_id == id).first()
-    if student:
-        return {"courses": student.courses}
-    else:
-        raise HTTPException(status_code=404, detail="???")
