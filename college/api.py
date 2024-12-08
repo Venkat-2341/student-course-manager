@@ -130,6 +130,10 @@ def get_all_students(db:Session = Depends(get_db)):
          tags=["Student"])
 def get_student_courses(id: int, db: Session = Depends(get_db)):
     
+    """
+        Fetches the courses the student has enrolled in, given the student id
+    """
+    
     student = StudentRepository.fetch_with_id(db, id)
     
     if student:
@@ -142,6 +146,10 @@ def get_student_courses(id: int, db: Session = Depends(get_db)):
 @app.get("/student-courses/{first_name}/{last_name}",
          tags=["Student"])
 def get_student_courses_name(first_name, last_name , db: Session = Depends(get_db)):
+    
+    """
+        Fetches the courses the student has enrolled in, given the first name and last name.
+    """
     
     student = StudentRepository.fetch_with_name(db, first_name, last_name)
     
@@ -236,6 +244,10 @@ def get_all_courses(db:Session = Depends(get_db)):
          tags=["Course"])
 def get_course_students(id:int, db: Session = Depends(get_db)):
     
+    """
+        Fetches all the students enrolled in a course, given the course id
+    """
+    
     course = CoursesRepository.fetch_with_id(db, id)
     
     if course:
@@ -248,6 +260,10 @@ def get_course_students(id:int, db: Session = Depends(get_db)):
 @app.get("/course-students-name/{name}",
          tags=["Course"])
 def get_course_students_name(name, db: Session = Depends(get_db)):
+    
+    """
+        Fetches all the students enrolled in a course, given the course name
+    """
     
     course = CoursesRepository.fetch_with_name(db, name)
     
@@ -317,7 +333,3 @@ def get_all_enrollments(db:Session = Depends(get_db)):
         )
         
     return db_item
-
-    
-
-    
