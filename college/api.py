@@ -21,6 +21,10 @@ app = FastAPI(
 
 Base.metadata.create_all(bind=engine)
 
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Student-Course-Manager"}
+
 @app.exception_handler(Exception)
 def validate_exception_handle(request, error):
     base_error_message = f"Failed to Handle the Request and Execute: {

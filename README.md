@@ -1,38 +1,62 @@
-# Student-Course Manager
+# 🏫 Student-Course Manager
 
-Student-Course Manager is a RESTful API built with FastAPI for managing a college's students, courses, and enrollments. This API provides endpoints for CRUD operations across students, courses, and enrollment records, enabling efficient database management for educational institutions.
+**Student-Course Manager** is a modular, RESTful API built using **FastAPI** to manage students, courses, and enrollments within an educational institution. The API supports full CRUD operations, centralized error handling, and performance monitoring to simplify academic database workflows.
 
-## Features
-->Student Management: Create, retrieve, and list students by name or ID, helping manage the student database effortlessly.
+---
 
-->Course Management: Manage courses through endpoints to add, retrieve, and list courses by course name or ID.
+## 🚀 Features
 
-->Enrollment Management: Handle enrollments, including creating new enrollments, deleting, and listing all enrollments.
+- **👨‍🎓 Student Management**
+  - Create, retrieve, update, and delete student records
+  - List students by name or ID
 
-->Error Handling: Detailed and structured error messages for easy debugging and handling of request failures.
+- **📚 Course Management**
+  - Add, retrieve, update, and delete course details
+  - List courses by course name or ID
 
-->Middleware and Custom Headers: Includes middleware to track request processing times, adding an X-Process-Time header to responses.
+- **📝 Enrollment Management**
+  - Create and remove enrollments linking students and courses
+  - Retrieve all enrollment records
 
-->Custom Exception Handling: Centralized error handling to manage validation and runtime errors seamlessly.
+- **⚠️ Error Handling**
+  - Centralized exception handling with structured error responses for better debugging
 
+- **🧩 Middleware & Headers**
+  - Custom middleware adds an `X-Process-Time` header to responses to track API performance
 
+---
 
-## Project Structure
-The project is organized into separate folders for different functional areas:
+## 📁 Project Structure
 
-->college/common/: Common configurations and utilities, including database setup.
+```bash
+college/
+├── common/         # Shared utilities (e.g., DB setup)
+├── students/       # Student models, schemas, repositories
+├── courses/        # Course models, schemas, repositories
+├── enrollments/    # Enrollment models, schemas, repositories
+├── __init__.py
+api.py              # API route definitions
+main.py             # App entry point
+demo3.db            # SQLite database
+.env                # Environment variables
+LICENSE             # License file
+Images/             # Working of the project
+```
 
-->college/students/: Handles all student-related models, schemas, and repository functions.
+## 📸 Example Screenshots
 
-->college/courses/: Manages course-related models, schemas, and repository functions.
+Below are some screenshots of the functionalities in action:
 
-->college/enrollments/: Contains enrollment-related models, schemas, and repository functions.
+![1](Images/Screenshot%202025-06-22%20212813.png)  
+Student Methods
 
-## Technology Stack
-1.FastAPI: The core framework for building and managing API routes.
+![2](Images/Screenshot%202025-06-22%20212824.png)  
+Course and Enrollment Methods
 
-2.SQLAlchemy: ORM for database interactions and query management.
+![Get course](Images/Screenshot%202025-06-22%20212938.png)  
+Get course by course id
 
-3.Pydantic: Used for data validation and serialization.
+![Output of get course](Images/Screenshot%202025-06-22%20212949.png)  
+Output of the query
 
-4.Uvicorn: ASGI server for running the FastAPI application.
+---
